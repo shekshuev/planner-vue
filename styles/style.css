@@ -1,0 +1,22 @@
+body {
+    min-width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    min-width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.scrollable {
+    max-height: calc(100vh - 65px - 54px);
+    overflow-y: scroll;
+}
+
+.scrollable::-webkit-scrollbar {
+    display: none;
+}
