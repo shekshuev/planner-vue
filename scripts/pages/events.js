@@ -20,23 +20,20 @@ export const EventsPage = {
                                 :event="selectedEvent" 
                                 @on-save="onSaveEvent"
                                 @on-delete="onDeleteEvent"
+                                @on-cancel="onCancelEvent"
                                 class="mb-10"></event-card>
+                    <button type="button" 
+                            v-else
+                            @click="onCreateEventButtonClicked"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            Создать ВКС
+                    </button>
                 </div>
             </div>
         </div>
         
     `,
     data: () => ({
-        // events: [
-        // {
-        //     id: Date.now() + Math.random(),
-        //     beginDate: new Date(),
-        //     endDate: new Date(),
-        //     title: "Event 1",
-        //     description: "Lorem ipsum",
-        //     members: []
-        // }
-        // ],
         eventTabs: [
             {
                 id: 0,
@@ -58,13 +55,17 @@ export const EventsPage = {
         ...mapState(useEventsStore, ["events"]),
         filteredEvents() {
             if (this.selectedTabId === 0) {
-                return this.events;
+                return this.events.sort((a, b) => a.beginDate.getTime() - b.beginDate.getTime());
             } else if (this.selectedTabId === 1) {
                 const now = Date.now();
-                return this.events.filter(e => e.beginDate.getTime() < now);
+                return this.events
+                    .filter(e => e.beginDate.getTime() < now)
+                    .sort((a, b) => a.beginDate.getTime() - b.beginDate.getTime());
             } else if (this.selectedTabId === 2) {
                 const now = Date.now();
-                return this.events.filter(e => e.beginDate.getTime() >= now);
+                return this.events
+                    .filter(e => e.beginDate.getTime() >= now)
+                    .sort((a, b) => a.beginDate.getTime() - b.beginDate.getTime());
             }
         }
     },
@@ -76,16 +77,22 @@ export const EventsPage = {
         onEventSelected(event) {
             this.selectedEvent = event;
         },
+        onCreateEventButtonClicked() {
+            this.selectedEvent = {};
+        },
         onSaveEvent(event) {
             if (event.id) {
                 this.updateEvent(event);
             } else {
-                this.createEvent(event);
+                this.addEvent(event);
             }
             this.selectedEvent = null;
         },
         onDeleteEvent(event) {
             this.removeEvent(event);
+            this.selectedEvent = null;
+        },
+        onCancelEvent() {
             this.selectedEvent = null;
         }
     }

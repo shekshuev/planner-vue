@@ -44,7 +44,8 @@ export const EventCard = {
                                 type="text" 
                                 readonly
                                 id="beginDate"
-                                v-model="model.beginDate"
+                                :value="model.beginDate"
+                                @change="e => model.beginDate = e.target.value"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5">
                         </div>
                     </div>
@@ -77,7 +78,8 @@ export const EventCard = {
                                 readonly
                                 id="endDate"
                                 type="text" 
-                                v-model="model.endDate"
+                                :value="model.endDate"
+                                @change="e => model.endDate = e.target.value"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5">
                         </div>
                     </div>
@@ -96,11 +98,14 @@ export const EventCard = {
                     </div>
                 </div>
                 <button type="button" 
+                        :disabled="!isFormValid"
                         @click="onSaveButtonClicked"
-                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Сохранить изменения</button>
+                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:hover:bg-blue-700">Сохранить изменения</button>
                 <button type="button" 
-                        @click="onDeleteButtonClicked"
-                        class="w-full text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Удалить</button>
+                        @click="onDeleteOrCancelButtonClicked"
+                        class="w-full text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                        {{ event.id ? 'Удалить' : 'Отмена' }}
+                </button>
             </form>
         </div>
     `,
@@ -108,10 +113,11 @@ export const EventCard = {
         return {
             model: {
                 ...this.event,
-                beginDate: moment(this.event.beginDate).format("DD.MM.yyyy"),
-                endDate: moment(this.event.endDate).format("DD.MM.yyyy"),
-                beginTime: moment(this.event.beginDate).format("hh:mm"),
-                endTime: moment(this.event.endDate).format("hh:mm")
+                beginDate:
+                    this.event.beginDate instanceof Date ? moment(this.event.beginDate).format("DD.MM.yyyy") : "",
+                endDate: this.event.endDate instanceof Date ? moment(this.event.endDate).format("DD.MM.yyyy") : "",
+                beginTime: this.event.beginDate instanceof Date ? moment(this.event.beginDate).format("hh:mm") : "",
+                endTime: this.event.endDate instanceof Date ? moment(this.event.endDate).format("hh:mm") : ""
             }
         };
     },
@@ -125,8 +131,26 @@ export const EventCard = {
                 endDate: moment(`${this.model.endDate} ${this.model.endTime}`, "DD.MM.yyyy hh:mm")
             });
         },
-        onDeleteButtonClicked() {
-            this.$emit("on-delete", this.event);
+        onDeleteOrCancelButtonClicked() {
+            if (this.event.id) {
+                this.$emit("on-delete", this.event);
+            } else {
+                this.$emit("on-cancel");
+            }
+        }
+    },
+    computed: {
+        isFormValid() {
+            return (
+                this.model.title?.length > 0 &&
+                this.model.description?.length > 0 &&
+                this.model.beginDate &&
+                this.model.endDate &&
+                /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(this.model.beginTime) &&
+                /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(this.model.endTime) &&
+                moment(`${this.model.beginDate} ${this.model.beginTime}`, "DD.MM.yyyy hh:mm") <
+                    moment(`${this.model.endDate} ${this.model.endTime}`, "DD.MM.yyyy hh:mm")
+            );
         }
     },
     mounted() {
