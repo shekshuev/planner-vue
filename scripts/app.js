@@ -4,6 +4,7 @@ import { PersonsPage } from "./pages/persons.js";
 
 const { createApp } = Vue;
 const { createRouter, createWebHashHistory } = VueRouter;
+const { createPinia } = Pinia;
 
 const routes = [
     { path: "/events", name: "event-list", component: EventsPage },
@@ -14,6 +15,8 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes: routes
 });
+
+const pinia = createPinia();
 
 const app = createApp({
     components: { TopMenu },
@@ -33,4 +36,5 @@ const app = createApp({
     }
 });
 app.use(router);
+app.use(pinia);
 app.mount("#app");

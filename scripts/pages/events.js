@@ -1,6 +1,8 @@
 import { TimeLine } from "../components/time-line.js";
 import { TabBar } from "../components/tab-bar.js";
 import { EventCard } from "../components/event-card.js";
+import { useEventsStore } from "../store/use-event-store.js";
+const { mapState, mapActions } = Pinia;
 
 export const EventsPage = {
     components: { TimeLine, TabBar, EventCard },
@@ -14,23 +16,27 @@ export const EventsPage = {
             </div>
             <div class="col-span-3">
                 <div class="scrollable">
-                    <event-card v-if="selectedEvent" :event="selectedEvent" class="mb-10"></event-card>
+                    <event-card v-if="selectedEvent" 
+                                :event="selectedEvent" 
+                                @on-save="onSaveEvent"
+                                @on-delete="onDeleteEvent"
+                                class="mb-10"></event-card>
                 </div>
             </div>
         </div>
         
     `,
     data: () => ({
-        events: [
-            {
-                id: Date.now() + Math.random(),
-                beginDate: new Date(),
-                endDate: new Date(),
-                title: "Event 1",
-                description: "Lorem ipsum",
-                members: []
-            }
-        ],
+        // events: [
+        // {
+        //     id: Date.now() + Math.random(),
+        //     beginDate: new Date(),
+        //     endDate: new Date(),
+        //     title: "Event 1",
+        //     description: "Lorem ipsum",
+        //     members: []
+        // }
+        // ],
         eventTabs: [
             {
                 id: 0,
@@ -49,6 +55,7 @@ export const EventsPage = {
         selectedEvent: null
     }),
     computed: {
+        ...mapState(useEventsStore, ["events"]),
         filteredEvents() {
             if (this.selectedTabId === 0) {
                 return this.events;
@@ -62,11 +69,24 @@ export const EventsPage = {
         }
     },
     methods: {
+        ...mapActions(useEventsStore, ["addEvent", "updateEvent", "deleteEvent"]),
         onTabSelected(id) {
             this.selectedTabId = id;
         },
         onEventSelected(event) {
             this.selectedEvent = event;
+        },
+        onSaveEvent(event) {
+            if (event.id) {
+                this.updateEvent(event);
+            } else {
+                this.createEvent(event);
+            }
+            this.selectedEvent = null;
+        },
+        onDeleteEvent(event) {
+            this.deleteEvent(event);
+            this.selectedEvent = null;
         }
     }
 };

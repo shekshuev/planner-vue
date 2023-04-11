@@ -8,7 +8,14 @@ export const TimeLineElem = {
             <time class="mb-1 text-sm font-normal leading-none text-gray-400">{{ date }}</time>
             <h3 class="text-lg font-semibold text-gray-900">{{ event.title }}</h3>
             <p class="mb-4 text-base font-normal text-gray-500">{{ event.description }}</p>
-            <button v-if="showButton" @click="onButtonClick" type="button" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">Подробнее</button>
+            <transition name="fade">
+                <button v-if="showButton" 
+                        @click="onButtonClick" 
+                        type="button" 
+                        class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+                        Подробнее
+                    </button>
+            </transition>
         </li>`,
     data: () => ({
         showButton: false
