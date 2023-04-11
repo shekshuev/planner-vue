@@ -69,7 +69,7 @@ export const EventsPage = {
         }
     },
     methods: {
-        ...mapActions(useEventsStore, ["addEvent", "updateEvent", "deleteEvent"]),
+        ...mapActions(useEventsStore, ["addEvent", "updateEvent", "removeEvent"]),
         onTabSelected(id) {
             this.selectedTabId = id;
         },
@@ -85,7 +85,7 @@ export const EventsPage = {
             this.selectedEvent = null;
         },
         onDeleteEvent(event) {
-            this.deleteEvent(event);
+            this.removeEvent(event);
             this.selectedEvent = null;
         }
     }
