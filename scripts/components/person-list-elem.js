@@ -1,3 +1,5 @@
+import { formatPersonFullName } from "../helpers/utils.js";
+
 export const PersonListElem = {
     props: {
         person: { type: Object, required: true }
@@ -18,7 +20,9 @@ export const PersonListElem = {
                 </div>
                 <div class="inline-flex items-center text-base font-semibold text-gray-900">
                     <transition name="fade">
-                        <button v-if="showButton" class="text-sm font-medium text-blue-600 hover:underline">
+                        <button v-if="showButton" 
+                                @click="onButtonClick" 
+                                class="text-sm font-medium text-blue-600 hover:underline">
                             Подробнее
                         </button>
                     </transition>
@@ -30,17 +34,15 @@ export const PersonListElem = {
     }),
     computed: {
         name() {
-            return `${this.person.lastName} ${this.person.firstName
-                .substring(0, 1)
-                .toUpperCase()}.${this.person.middleName.substring(0, 1).toUpperCase()}`;
+            return formatPersonFullName(this.person);
         },
         role() {
             return this.person.role === "subscriber" ? "Абонент" : "Организатор";
         }
     },
     methods: {
-        onPersonSelected(person) {
-            this.$emit("on-person-selected", person);
+        onButtonClick() {
+            this.$emit("on-person-selected", this.person);
         }
     }
 };
