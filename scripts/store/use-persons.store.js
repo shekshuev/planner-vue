@@ -1,6 +1,6 @@
 const { defineStore } = Pinia;
 
-export const useEventsStore = defineStore({
+export const usePersonsStore = defineStore({
     id: "persons",
     state: () => {
         let initialPersons = [];
@@ -18,11 +18,11 @@ export const useEventsStore = defineStore({
                 localStorage.setItem("vks.persons", JSON.stringify(this.persons));
             }, 10);
         },
-        removeEvent(person) {
+        removePerson(person) {
             this.persons = this.persons.filter(p => p.id !== person.id);
             localStorage.setItem("vks.persons", JSON.stringify(this.persons));
         },
-        updateEvent(person) {
+        updatePerson(person) {
             this.persons = this.persons.map(p => (p.id === person.id ? person : p));
             localStorage.setItem("vks.persons", JSON.stringify(this.persons));
         }

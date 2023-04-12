@@ -71,14 +71,13 @@ export const EventsPage = {
                     .filter(e => e.beginDate.getTime() >= now)
                     .sort((a, b) => a.beginDate.getTime() - b.beginDate.getTime());
             }
-            if (this.searchString.length > 0) {
-                filtered = filtered.filter(
-                    e =>
-                        e.title.toLowerCase().indexOf(this.searchString.toLowerCase()) >= 0 ||
-                        e.description.toLowerCase().indexOf(this.searchString.toLowerCase()) >= 0
-                );
-            }
-            return filtered;
+            return this.searchString.length > 0
+                ? filtered.filter(
+                      e =>
+                          e.title.toLowerCase().indexOf(this.searchString.toLowerCase()) >= 0 ||
+                          e.description.toLowerCase().indexOf(this.searchString.toLowerCase()) >= 0
+                  )
+                : filtered;
         }
     },
     methods: {
