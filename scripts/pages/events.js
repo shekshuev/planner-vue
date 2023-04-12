@@ -3,20 +3,21 @@ import { TabBar } from "../components/tab-bar.js";
 import { EventCard } from "../components/event-card.js";
 import { SearchInput } from "../components/search-input.js";
 import { useEventsStore } from "../store/use-event-store.js";
+import { DefaultLayout } from "../components/default-layout.js";
 const { mapState, mapActions } = Pinia;
 
 export const EventsPage = {
-    components: { TimeLine, TabBar, EventCard, SearchInput },
+    components: { TimeLine, TabBar, EventCard, SearchInput, DefaultLayout },
     template: /*html*/ `
         <tab-bar :tabs="eventTabs" :selected-tab-id="selectedTabId" @tab-clicked="onTabSelected"></tab-bar>
-        <div class="grid grid-cols-7 gap-4 pt-6">
-            <div class="col-span-4">
+        <default-layout>
+            <template v-slot:left>
                 <search-input v-model="searchString"></search-input>
                 <div class="scrollable">
                     <time-line :events="filteredEvents" @on-event-selected="onEventSelected"></time-line>
                 </div>
-            </div>
-            <div class="col-span-3">
+            </template>
+            <template v-slot:right>
                 <div class="scrollable">
                     <event-card v-if="selectedEvent" 
                                 :event="selectedEvent" 
@@ -31,9 +32,8 @@ export const EventsPage = {
                             Создать ВКС
                     </button>
                 </div>
-            </div>
-        </div>
-        
+            </template>
+        </default-layout>        
     `,
     data: () => ({
         eventTabs: [
