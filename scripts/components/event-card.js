@@ -1,11 +1,13 @@
 import Datepicker from "../libs/datepicker.js";
 import { vMaska } from "../libs/maska.js";
+import { PersonSearchDropdown } from "./person-search-dropdown.js";
 
 export const EventCard = {
     props: {
         event: { type: Object }
     },
     directives: { maska: vMaska },
+    components: { PersonSearchDropdown },
     template: /*html*/ `
         <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
             <form class="space-y-6" action="#">
@@ -97,6 +99,9 @@ export const EventCard = {
                             >
                     </div>
                 </div>
+                <person-search-dropdown :event="event" 
+                                        @on-person-checked="personChecked" 
+                                        @on-person-unchecked="personUnchecked"></person-search-dropdown>
                 <button type="button" 
                         :disabled="!isFormValid"
                         @click="onSaveButtonClicked"
@@ -117,7 +122,8 @@ export const EventCard = {
                     this.event.beginDate instanceof Date ? moment(this.event.beginDate).format("DD.MM.yyyy") : "",
                 endDate: this.event.endDate instanceof Date ? moment(this.event.endDate).format("DD.MM.yyyy") : "",
                 beginTime: this.event.beginDate instanceof Date ? moment(this.event.beginDate).format("HH:mm") : "",
-                endTime: this.event.endDate instanceof Date ? moment(this.event.endDate).format("HH:mm") : ""
+                endTime: this.event.endDate instanceof Date ? moment(this.event.endDate).format("HH:mm") : "",
+                persons: this.event.persons || []
             }
         };
     },
@@ -128,7 +134,8 @@ export const EventCard = {
                 title: this.model.title,
                 description: this.model.description,
                 beginDate: moment(`${this.model.beginDate} ${this.model.beginTime}`, "DD.MM.yyyy HH:mm").toDate(),
-                endDate: moment(`${this.model.endDate} ${this.model.endTime}`, "DD.MM.yyyy HH:mm").toDate()
+                endDate: moment(`${this.model.endDate} ${this.model.endTime}`, "DD.MM.yyyy HH:mm").toDate(),
+                persons: this.model.persons
             });
         },
         onDeleteOrCancelButtonClicked() {
@@ -137,6 +144,12 @@ export const EventCard = {
             } else {
                 this.$emit("on-cancel");
             }
+        },
+        personChecked(id) {
+            this.model.persons.push(id);
+        },
+        personUnchecked(id) {
+            this.model.persons = this.model.persons.filter(p => p !== id);
         }
     },
     computed: {
@@ -149,8 +162,21 @@ export const EventCard = {
                 /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(this.model.beginTime) &&
                 /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(this.model.endTime) &&
                 moment(`${this.model.beginDate} ${this.model.beginTime}`, "DD.MM.yyyy hh:mm") <
-                    moment(`${this.model.endDate} ${this.model.endTime}`, "DD.MM.yyyy hh:mm")
+                    moment(`${this.model.endDate} ${this.model.endTime}`, "DD.MM.yyyy hh:mm") &&
+                this.model.persons.length > 0
             );
+        }
+    },
+    watch: {
+        event(newVal) {
+            this.model = {
+                ...newVal,
+                beginDate: newVal.beginDate instanceof Date ? moment(newVal.beginDate).format("DD.MM.yyyy") : "",
+                endDate: newVal.endDate instanceof Date ? moment(newVal.endDate).format("DD.MM.yyyy") : "",
+                beginTime: newVal.beginDate instanceof Date ? moment(newVal.beginDate).format("HH:mm") : "",
+                endTime: newVal.endDate instanceof Date ? moment(newVal.endDate).format("HH:mm") : "",
+                persons: newVal.persons || []
+            };
         }
     },
     mounted() {
