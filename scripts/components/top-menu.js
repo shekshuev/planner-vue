@@ -6,7 +6,7 @@ export const TopMenu = {
         <nav class="bg-white border-gray-200">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center">
-                    <img src="assets/icon.png" class="h-8 mr-3" alt="Flowbite Logo" />
+                    <img src="assets/icons/icon-128x128.png" class="h-8 mr-3" alt="Flowbite Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap">Планирование ВКС</span>
                 </a>
                 <button
