@@ -8,7 +8,8 @@ const { createPinia } = Pinia;
 
 const routes = [
     { path: "/events", name: "event-list", component: EventsPage },
-    { path: "/persons", name: "person-list", component: PersonsPage }
+    { path: "/persons", name: "person-list", component: PersonsPage },
+    { path: "/", redirect: { name: "event-list" } }
 ];
 
 const router = createRouter({
