@@ -99,7 +99,7 @@ export const EventCard = {
                             >
                     </div>
                 </div>
-                <person-search-dropdown :event="event" 
+                <person-search-dropdown :event="model" 
                                         @on-person-checked="personChecked" 
                                         @on-person-unchecked="personUnchecked"></person-search-dropdown>
                 <button type="button" 
@@ -146,10 +146,16 @@ export const EventCard = {
             }
         },
         personChecked(id) {
-            this.model.persons.push(id);
+            this.model = {
+                ...this.model,
+                persons: [...this.model.persons, id]
+            };
         },
         personUnchecked(id) {
-            this.model.persons = this.model.persons.filter(p => p !== id);
+            this.model = {
+                ...this.model,
+                persons: this.model.persons.filter(p => p !== id)
+            };
         }
     },
     computed: {

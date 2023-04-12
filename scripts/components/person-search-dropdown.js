@@ -19,7 +19,7 @@ export const PersonSearchDropdown = {
                 <span>Участники (выбрано {{ event.persons ? event.persons.length : 0 }})</span> <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
             </button>
-            <div ref="target" class="z-10 hidden bg-white rounded-lg shadow w-60 dark:bg-gray-700">
+            <div ref="target" class="z-10 hidden bg-white rounded-lg shadow w-60">
                 <div class="p-3">
                     <search-input v-model="searchString"></search-input>
                 </div>
