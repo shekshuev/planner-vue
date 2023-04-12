@@ -5,7 +5,7 @@ export const PersonListElem = {
         person: { type: Object, required: true }
     },
     template: /*html*/ `
-        <li class="py-3 sm:py-4" @mouseover="showButton = true" @mouseleave="showButton = false">
+        <li class="py-3 sm:py-4">
             <div class="flex items-center space-x-4">
                 <div class="flex-shrink-0">
                     <img class="w-8 h-8 rounded-full" src="assets/avatar.png" alt="Neil image">
@@ -19,19 +19,13 @@ export const PersonListElem = {
                     </p>
                 </div>
                 <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                    <transition name="fade">
-                        <button v-if="showButton" 
-                                @click="onButtonClick" 
-                                class="text-sm font-medium text-blue-600 hover:underline">
-                            Подробнее
-                        </button>
-                    </transition>
+                    <button @click="onButtonClick" 
+                            class="text-sm font-medium text-blue-600 hover:underline">
+                        Подробнее
+                    </button>
                 </div>
             </div>
         </li>`,
-    data: () => ({
-        showButton: false
-    }),
     computed: {
         name() {
             return formatPersonFullName(this.person);

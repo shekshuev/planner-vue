@@ -3,7 +3,7 @@ export const PersonCard = {
         person: { type: Object }
     },
     template: /*html*/ `
-        <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
+        <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
             <form class="space-y-6" action="#">
                 <h5 class="text-xl font-medium text-gray-900">Карточка участника</h5>
                 <div>
@@ -36,8 +36,8 @@ export const PersonCard = {
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                            v-model="model.middleName">
                 </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
+                <div class="flex flex-wrap items-center justify-start">
+                    <div class="flex items-center mr-4">
                         <input id="organizer" 
                                name="role"
                                type="radio" 

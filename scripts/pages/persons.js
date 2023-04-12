@@ -28,7 +28,7 @@ export const PersonsPage = {
                     <button type="button" 
                             v-else
                             @click="onCreatePersonButtonClicked"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            class="w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                             Добавить участника
                     </button>
                 </div>

@@ -9,7 +9,7 @@ export const EventCard = {
     directives: { maska: vMaska },
     components: { PersonSearchDropdown },
     template: /*html*/ `
-        <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
+        <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
             <form class="space-y-6" action="#">
                 <h5 class="text-xl font-medium text-gray-900">Карточка ВКС</h5>
                 <div>
