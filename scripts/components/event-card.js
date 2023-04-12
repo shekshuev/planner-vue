@@ -116,8 +116,8 @@ export const EventCard = {
                 beginDate:
                     this.event.beginDate instanceof Date ? moment(this.event.beginDate).format("DD.MM.yyyy") : "",
                 endDate: this.event.endDate instanceof Date ? moment(this.event.endDate).format("DD.MM.yyyy") : "",
-                beginTime: this.event.beginDate instanceof Date ? moment(this.event.beginDate).format("hh:mm") : "",
-                endTime: this.event.endDate instanceof Date ? moment(this.event.endDate).format("hh:mm") : ""
+                beginTime: this.event.beginDate instanceof Date ? moment(this.event.beginDate).format("HH:mm") : "",
+                endTime: this.event.endDate instanceof Date ? moment(this.event.endDate).format("HH:mm") : ""
             }
         };
     },
@@ -127,8 +127,8 @@ export const EventCard = {
                 id: this.event.id,
                 title: this.model.title,
                 description: this.model.description,
-                beginDate: moment(`${this.model.beginDate} ${this.model.beginTime}`, "DD.MM.yyyy hh:mm"),
-                endDate: moment(`${this.model.endDate} ${this.model.endTime}`, "DD.MM.yyyy hh:mm")
+                beginDate: moment(`${this.model.beginDate} ${this.model.beginTime}`, "DD.MM.yyyy HH:mm").toDate(),
+                endDate: moment(`${this.model.endDate} ${this.model.endTime}`, "DD.MM.yyyy HH:mm").toDate()
             });
         },
         onDeleteOrCancelButtonClicked() {

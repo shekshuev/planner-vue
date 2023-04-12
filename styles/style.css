@@ -13,7 +13,7 @@ body {
 }
 
 .scrollable {
-    max-height: calc(100vh - 65px - 54px);
+    max-height: calc(100vh - 65px - 54px - 42px - 1rem);
     overflow-y: scroll;
 }
 
