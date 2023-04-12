@@ -39,8 +39,8 @@ export const TopMenu = {
                             <router-link
                                 :to="menuItem.to"
                                 :class="{
-                                    'block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-gray-500 hover:text-gray-600 md:p-0': routeName !== menuItem.to.name,
-                                    'block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0': routeName === menuItem.to.name,
+                                    'block py-2 pl-3 pr-4 rounded text-gray-500 hover:text-gray-600 md:p-0': routeName !== menuItem.to.name,
+                                    'block py-2 pl-3 pr-4 rounded text-blue-700 md:p-0': routeName === menuItem.to.name,
                                 }"
                                 aria-current="page"
                                 >{{ menuItem.title }}</router-link
